@@ -1,8 +1,16 @@
 pipeline {
     agent any
     stages {
-        stage("Build Artifact") {
-            sh 'mvn clean package -DskipTests'
+        stage('Fetch Code') {
+            steps {
+                git branch: 'master', url: 'git@github.com:baburaj1380/New-vprofile-project.git'
+            }
+        }
+
+        stage('BUILD'){
+            steps {
+                sh 'mvn clean install -DskipTests'
+            }
         }
     }
 }
