@@ -20,10 +20,8 @@ pipeline {
         }
    stage("deploy") {
         steps {
-            sshagent(credentials: ['jenkins']) {
-              sh "scp target/vprofile-v2.war ubuntu@52.90.92.201:~/"
-              sh "ssh ubuntu@52.90.92.201 'sudo mv ~/vprofile-v2.war /var/lib/tomcat9/webapps/'"
-              sh "ssh ubuntu@52.90.92.201 'sudo systemctl restart tomcat9'"
+            script {
+               sh "ssh ubuntu@52.90.92.201 'sudo systemctl restart tomcat9'"
             }
             }
         }
