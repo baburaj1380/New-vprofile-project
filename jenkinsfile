@@ -21,7 +21,7 @@ pipeline {
    stage("deploy") {
         steps {
             script {
-               sh "ssh ubuntu@52.90.92.201 'sudo systemctl restart tomcat9'"
+               sh 'mvn deploy'
             }
             }
         }
