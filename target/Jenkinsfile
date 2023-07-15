@@ -1,6 +1,5 @@
 pipeline {
     agent any
-<<<<<<< HEAD
     tools {
         maven 'maven3'
     }
@@ -28,19 +27,3 @@ pipeline {
         }
     }
 }
-=======
-    stages {
-        stage('Fetch Code') {
-            steps {
-                git branch: 'master', url: 'git@github.com:baburaj1380/New-vprofile-project.git'
-            }
-        }
-
-        stage('BUILD'){
-            steps {
-                sh 'mvn clean install -DskipTests'
-            }
-        }
-    }
-}
->>>>>>> b4b1022e940a54e27e059769c59f492b3bcb6121
