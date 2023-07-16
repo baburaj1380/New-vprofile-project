@@ -18,10 +18,12 @@ pipeline {
             }
         }
         }
-   stage("deploy") {
-        steps {
-          script {
-             scp -o StrictHostKeyChecking=no target/java-maven-app-1.1.0-SNAPSHOT.jar ubuntu@52.90.92.201:/home/ubuntu/
+          stage("deploy") {
+          steps {
+            sshagent(credentials: ['jenkins']) {
+              sh "scp -o StrictHostKeyChecking=no target/vprofile-v2.war ubuntu@34.203.40.158:~/"
+              sh "ssh ubuntu@34.203.40.158 'sudo mv ~/vprofile-v2.war /var/lib/tomcat9/webapps/'"
+              sh "ssh ubuntu@34.203.40.158 'sudo systemctl restart tomcat9'"
             }
             }
         }
