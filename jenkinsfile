@@ -1,38 +1,22 @@
-def gv
-
 pipeline {
     agent any
+    tools {
+        maven 'maven3'
+    }
     stages {
-        stage("init") {
+        stage("Build Artifact") {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    sh 'mvn -f pom.xml clean package'
                 }
             }
         }
-        stage("build jar") {
+    stage('Deploy') {
             steps {
-                script {
-                    echo "building jar"
-                    //gv.buildJar()
+                sshagent(credentials: ['ec2-tomcat-creds']) {
+                sh 'scp -o StrictHostKeyChecking=no target/vprofile-v2.war ubuntu@52.90.92.201:/home/ubuntu'
                 }
             }
         }
-        stage("build image") {
-            steps {
-                script {
-                    echo "building image"
-                    //gv.buildImage()
-                }
-            }
-        }
-        stage("deploy") {
-            steps {
-                script {
-                    echo "deploying"
-                    //gv.deployApp()
-                }
-            }
-        }
-    }   
+    }
 }
