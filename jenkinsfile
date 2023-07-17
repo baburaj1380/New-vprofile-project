@@ -11,6 +11,13 @@ pipeline {
                 }
             }
         }
+        stage("Test") {
+            steps {
+                script {
+                    sh 'mvn test'
+                }
+            }
+        }
     stage('Deploy') {
             steps {
                 sshagent(credentials: ['ec2-tomcat-creds']) {
