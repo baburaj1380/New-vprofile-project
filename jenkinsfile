@@ -21,16 +21,16 @@ pipeline {
         stage("Upload Artifact s3") {
             steps {
                 script {
-                    sh 'aws s3 cp target/vprofile-v1.war s3://automation-manual-us/vprofile-artifacts/vprofile-v1.war'
+                    sh 'aws s3 cp target/vprofile-v2.war s3://automation-manual-us/vprofile-artifacts/vprofile-v2.war'
                 }
             }
         }
     stage('Deploy') {
             steps {
                 sshagent(credentials: ['ec2-jenkins-creds']) {
-                sh 'scp -o StrictHostKeyChecking=no target/vprofile-v1.war ubuntu@18.206.61.99:/home/ubuntu'
+                sh 'scp -o StrictHostKeyChecking=no target/vprofile-v2.war ubuntu@18.206.61.99:/home/ubuntu'
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.206.61.99 "sudo systemctl restart tomcat9"'
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.206.61.99 "sudo cp vprofile-v1.war /var/lib/tomcat9/webapps"'
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.206.61.99 "sudo cp vprofile-v2.war /var/lib/tomcat9/webapps"'
               }
             }
         }
