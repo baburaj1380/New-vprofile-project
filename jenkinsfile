@@ -13,6 +13,7 @@ pipeline {
                 }
             }
         }
+    }
     stages {
         stage("Build Artifact") {
             steps {
@@ -21,6 +22,7 @@ pipeline {
                 }
             }
         }
+    }
         stage("Test") {
             steps {
                 script {
@@ -45,5 +47,3 @@ pipeline {
             }
         }
     }
-}
-}
