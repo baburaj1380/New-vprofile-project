@@ -4,6 +4,16 @@ pipeline {
         maven 'maven3'
     }
     stages {
+        stage('Read POM') {
+            steps {
+                script {
+                    def pom = readMavenPom file: 'pom.xml'
+                    def version = pom.version
+                    echo "Project version is: ${version}"
+                }
+            }
+        }
+    stages {
         stage("Build Artifact") {
             steps {
                 script {
