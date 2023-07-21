@@ -11,12 +11,11 @@ pipeline {
             steps {
                 script {
                     def pom = readMavenPom file: 'pom.xml'
-                    def version = pom.version
+                    version = pom.version
                     echo "Project version is: ${version}"
                 }
             }
         }
-        
         stage("Build Artifact") {
             steps {
                 script {
@@ -24,15 +23,13 @@ pipeline {
                 }
             }
         }
-        
         stage("Test") {
             steps {
                 script {
                     sh 'mvn test'
                 }
             }
-        }
-        
+        }        
         stage("Upload Artifact s3") {
             steps {
                 script {
