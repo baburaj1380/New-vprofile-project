@@ -13,8 +13,7 @@ pipeline {
                 }
             }
         }
-    }
-    stages {
+        
         stage("Build Artifact") {
             steps {
                 script {
@@ -22,7 +21,7 @@ pipeline {
                 }
             }
         }
-    }
+        
         stage("Test") {
             steps {
                 script {
@@ -30,6 +29,7 @@ pipeline {
                 }
             }
         }
+        
         stage("Upload Artifact s3") {
             steps {
                 script {
@@ -37,13 +37,15 @@ pipeline {
                 }
             }
         }
-    stage('Deploy') {
+        
+        stage('Deploy') {
             steps {
                 sshagent(credentials: ['ec2-jenkins-creds']) {
-                sh 'scp -o StrictHostKeyChecking=no target/vprofile-1.0.1.war ubuntu@18.206.61.99:/home/ubuntu'
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.206.61.99 "sudo systemctl restart tomcat9"'
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.206.61.99 "sudo cp vprofile-1.0.1.war /var/lib/tomcat9/webapps"'
-              }
+                    sh 'scp -o StrictHostKeyChecking=no target/vprofile-1.0.1.war ubuntu@18.206.61.99:/home/ubuntu'
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.206.61.99 "sudo systemctl restart tomcat9"'
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@18.206.61.99 "sudo cp /home/ubuntu/vprofile-1.0.1.war /var/lib/tomcat9/webapps"'
+                }
             }
         }
     }
+}
