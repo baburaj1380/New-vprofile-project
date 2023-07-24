@@ -37,6 +37,15 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            steps {
+                sshagent(credentials: ['Jenkins']) {
+                    sh "scp target/vprofile-${version}.war ubuntu@18.206.61.99:~/"
+                    sh "ssh ubuntu@18.206.61.99 'sudo mv ~/vprofile-${version}.war /var/lib/tomcat9/webapps/'"
+                    sh "ssh ubuntu@18.206.61.99 'sudo systemctl restart tomcat9'"
+                    }
+                }
+            }
     }
 }
-
+        
